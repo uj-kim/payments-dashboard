@@ -1,26 +1,6 @@
-export type Transaction = {
-  paymentCode: string;
-  mchtCode: string;
-  amount: string;
-  currency: string;
-  parType: "DEVICE" | "ONLINE" | "MOBILE" | "BILLING" | "VACT";
-  status: "SUCCESS" | "FAILED" | "PENDING" | "CANCELED";
-  paymentAt: string;
-};
-
-export type Merchant = {
-  mchtCode: string;
-  mchtName: string;
-  status: string;
-  bizType: string;
-};
-
-export type DashboardStats = {
-  totalAmount: number;
-  avgAmount: number;
-  successRate: number;
-  activeMerchantCount: number;
-};
+import { Merchant, Transaction } from "@/types/type";
+import { DashboardOverview } from "../types/dashboard";
+import { buildDashboardOverview } from "../services/dashboard-calculate-helpers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
@@ -38,27 +18,8 @@ async function fetchMerchants(): Promise<Merchant[]> {
   return json.data ?? [];
 }
 
-export async function fetchDashboardStats(): Promise<DashboardStats> {
+export async function fetchDashboardOverview(): Promise<DashboardOverview> {
   const [transactions, merchants] = await Promise.all([fetchTransactions(), fetchMerchants()]);
 
-  const totalAmount = transactions.reduce((sum, tx) => {
-    const amount = Number(tx.amount);
-    return sum + (isNaN(amount) ? 0 : amount);
-  }, 0);
-
-  const totalCount = transactions.length;
-  const avgAmount = totalCount ? Math.round(totalAmount / totalCount) : 0;
-
-  const successCount = transactions.filter((tx) => tx.status === "SUCCESS").length;
-
-  const successRate = totalCount ? successCount / totalCount : 0;
-
-  const activeMerchantCount = merchants.filter((m) => m.status === "ACTIVE").length;
-
-  return {
-    totalAmount,
-    avgAmount,
-    successRate,
-    activeMerchantCount,
-  };
+  return buildDashboardOverview(transactions, merchants);
 }
