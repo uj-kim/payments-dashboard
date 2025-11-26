@@ -1,3 +1,4 @@
+import DashboardChartsSection from "@/features/dashboard/ui/sections/charts-section";
 import DashboardKPISection from "@/features/dashboard/ui/sections/stats-section";
 
 export default function DashboardPage() {
@@ -12,6 +13,7 @@ export default function DashboardPage() {
       <DashboardKPISection />
 
       {/* 기타 섹션 추가 예정 */}
+      <DashboardChartsSection />
     </div>
   );
 }

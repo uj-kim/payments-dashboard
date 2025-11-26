@@ -1,7 +1,7 @@
 "use client";
 
 import { StatsCard } from "@/components/StatsCard";
-import { useDashboardStats } from "../../hooks/useDashboardStats";
+import { useDashboardOverview } from "../../hooks/useDashboardOverview";
 
 function formatCurrency(amount: number) {
   return amount.toLocaleString("ko-KR") + "원";
@@ -13,7 +13,7 @@ function formatPercent(rate: number) {
 }
 
 export default function DashboardKPISection() {
-  const { data, isLoading, error } = useDashboardStats();
+  const { data, isLoading, error } = useDashboardOverview();
 
   if (isLoading) {
     return (
@@ -33,7 +33,7 @@ export default function DashboardKPISection() {
     );
   }
 
-  const { totalAmount, avgAmount, successRate, activeMerchantCount } = data;
+  const { totalAmount, avgAmount, successRate, activeMerchantCount } = data.stats;
 
   return (
     <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
