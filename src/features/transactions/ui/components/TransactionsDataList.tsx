@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   ColumnDef,
   flexRender,
@@ -32,6 +31,7 @@ import { useTransactionsListData } from "../../hooks/useTransactionsListData";
 import type { TransactionRow } from "../../types/type";
 import { StatusBadge } from "./StatusBadge";
 import { filterTransactions } from "../../utils/filter-transactions";
+import { useMemo, useState } from "react";
 
 type TransactionsDataListProps = {
   searchQuery?: string;
@@ -95,13 +95,10 @@ const columns: ColumnDef<TransactionRow>[] = [
 export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListProps) {
   const { data, isLoading, error } = useTransactionsListData();
   const rows: TransactionRow[] = data ?? [];
-  const [sorting, setSorting] = React.useState<SortingState>([{ id: "dateTime", desc: true }]);
-  const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 10 });
+  const [sorting, setSorting] = useState<SortingState>([{ id: "dateTime", desc: true }]);
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
-  const filteredRows = React.useMemo(
-    () => filterTransactions(rows, searchQuery),
-    [rows, searchQuery],
-  );
+  const filteredRows = useMemo(() => filterTransactions(rows, searchQuery), [rows, searchQuery]);
 
   const table = useReactTable({
     data: filteredRows,
@@ -131,17 +128,34 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
         {!isLoading && !error && (
           <>
             <div className="rounded-lg border">
-              <Table>
+              <Table aria-label="거래 내역 표">
+                <caption className="sr-only">
+                  거래 ID, 가맹점, 결제수단, 거래일시, 금액, 상태를 포함한 거래 내역
+                </caption>
                 <TableHeader className="bg-muted">
                   {table.getHeaderGroups().map((headerGroup) => (
                     <TableRow key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <TableHead key={header.id} className="px-3 py-3 text-left">
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(header.column.columnDef.header, header.getContext())}
-                        </TableHead>
-                      ))}
+                      {headerGroup.headers.map((header) => {
+                        const sortState = header.column.getIsSorted();
+                        const ariaSort =
+                          sortState === "asc"
+                            ? "ascending"
+                            : sortState === "desc"
+                              ? "descending"
+                              : "none";
+                        return (
+                          <TableHead
+                            key={header.id}
+                            className="px-3 py-3 text-left"
+                            aria-sort={ariaSort}
+                            scope="col"
+                          >
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(header.column.columnDef.header, header.getContext())}
+                          </TableHead>
+                        );
+                      })}
                     </TableRow>
                   ))}
                 </TableHeader>
@@ -158,7 +172,11 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={columns.length} className="h-24 text-center">
+                      <TableCell
+                        colSpan={columns.length}
+                        className="h-24 text-center"
+                        role="status"
+                      >
                         데이터가 없습니다.
                       </TableCell>
                     </TableRow>
@@ -177,7 +195,7 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
                     setPagination((prev) => ({ ...prev, pageSize: size, pageIndex: 0 }));
                   }}
                 >
-                  <SelectTrigger className="h-8 w-20">
+                  <SelectTrigger className="h-8 w-20" aria-label="페이지당 행 수 선택">
                     <SelectValue placeholder={pagination.pageSize} />
                   </SelectTrigger>
                   <SelectContent side="top">
@@ -195,6 +213,7 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
                   size="sm"
                   onClick={() => table.previousPage()}
                   disabled={!table.getCanPreviousPage()}
+                  aria-label="이전 페이지"
                 >
                   이전
                 </Button>
@@ -206,6 +225,7 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
                   size="sm"
                   onClick={() => table.nextPage()}
                   disabled={!table.getCanNextPage()}
+                  aria-label="다음 페이지"
                 >
                   다음
                 </Button>

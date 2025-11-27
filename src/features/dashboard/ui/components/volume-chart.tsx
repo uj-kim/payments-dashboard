@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/chart";
 
 import type { DashboardVolumeChart } from "../../types/dashboard";
+import { useId } from "react";
 
 type VolumeChartProps = {
   data: DashboardVolumeChart[];
@@ -24,17 +25,39 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function VolumeChart({ data }: VolumeChartProps) {
+  const descriptionId = useId();
+  const periodLabel = data.length
+    ? `${data[0].date} - ${data[data.length - 1].date}`
+    : "데이터 없음";
+  const latestCount = data.length ? data[data.length - 1].count : 0;
+  const latestText =
+    data.length > 0
+      ? `${latestCount.toLocaleString("ko-KR")}건 (가장 최근 값)`
+      : "데이터가 없습니다.";
+
   return (
-    <Card className="bg-white">
+    <Card
+      className="bg-white"
+      aria-labelledby="volume-chart-title"
+      aria-describedby={descriptionId}
+    >
       <CardHeader className="flex flex-row items-start justify-between pb-2">
         <div className="space-y-1">
-          <CardTitle>일별 거래량</CardTitle>
-          <CardDescription>11월 1일 - 11월 10일</CardDescription>
+          <CardTitle id="volume-chart-title">일별 거래량</CardTitle>
+          <CardDescription>{periodLabel}</CardDescription>
+          <p id={descriptionId} className="sr-only">
+            기간 {periodLabel}, 최신 거래량 {latestText}
+          </p>
         </div>
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-auto h-64 w-full">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-64 w-full"
+          role="img"
+          aria-label={`일별 거래량 차트, 기간 ${periodLabel}, 최신 거래량 ${latestText}`}
+        >
           <BarChart
             accessibilityLayer
             data={data}

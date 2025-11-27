@@ -7,11 +7,14 @@ type StatsCardProps = {
 };
 
 export function StatsCard({ label, value, subLabel }: StatsCardProps) {
+  const ariaLabel = subLabel ? `${label} ${value} (${subLabel})` : `${label} ${value}`;
+
   return (
-    <Card className="w-full">
+    <Card className="w-full" role="group" aria-label={ariaLabel}>
       <CardHeader>
         <CardDescription className="text-xs">{label}</CardDescription>
         <CardTitle className="text-xl font-semibold">{value}</CardTitle>
+        <span className="sr-only">{ariaLabel}</span>
       </CardHeader>
       {/* 
       {subLabel && (

@@ -9,7 +9,11 @@ export default function NotFound() {
   const router = useRouter();
 
   return (
-    <div className="animate-in zoom-in-95 flex min-h-screen flex-col items-center justify-center px-4 py-12 text-center duration-300">
+    <main
+      className="animate-in zoom-in-95 flex min-h-screen flex-col items-center justify-center px-4 py-12 text-center duration-300"
+      role="main"
+      aria-label="페이지를 찾을 수 없습니다"
+    >
       <div className="relative mb-8">
         <div className="absolute inset-0 scale-150 transform rounded-full bg-lime-200/50 opacity-50 blur-3xl" />
 
@@ -37,6 +41,7 @@ export default function NotFound() {
           variant="outline"
           onClick={() => router.back()}
           className="flex items-center justify-center gap-2 rounded-xl border-stone-300 px-6 py-3 text-stone-700 hover:bg-stone-50 hover:text-stone-900"
+          aria-label="이전 페이지로 돌아가기"
         >
           <ArrowLeft size={18} />
           <span>이전 페이지</span>
@@ -45,6 +50,7 @@ export default function NotFound() {
         <Button
           onClick={() => router.push("/")}
           className="flex items-center justify-center gap-2 rounded-xl bg-lime-700 px-6 py-3 text-white shadow-md hover:bg-lime-800 hover:shadow-lg"
+          aria-label="대시보드로 이동"
         >
           <Home size={18} />
           <span>대시보드로 이동</span>
@@ -57,6 +63,6 @@ export default function NotFound() {
           으로 문의해 주세요.
         </p>
       </div>
-    </div>
+    </main>
   );
 }

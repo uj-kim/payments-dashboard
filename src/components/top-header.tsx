@@ -8,11 +8,12 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export function TopHeader() {
   const router = useRouter();
   const [value, setValue] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const hasQuery = value.trim().length > 0;
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,11 +23,16 @@ export function TopHeader() {
     router.push(`/transactions/search?q=${encodeURIComponent(q)}`);
   };
   return (
-    <header className="bg-background fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b px-8 shadow-xs">
+    <header
+      className="bg-background fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b px-8 shadow-xs"
+      aria-label="상단 헤더"
+    >
       {/* 검색창 */}
       <form
         onSubmit={handleSubmit}
         className="bg-muted text-foreground focus-within:ring-ring/20 flex w-full max-w-lg items-center rounded-xl px-3 py-2 text-sm transition-all focus-within:ring-2"
+        role="search"
+        aria-label="거래 검색"
       >
         <Search size={18} className="text-muted-foreground mr-2" />
         <Input
@@ -34,6 +40,8 @@ export function TopHeader() {
           placeholder="거래 ID, 가맹점명, 가맹점 ID 검색..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          ref={inputRef}
+          aria-label="거래 검색어 입력"
           className="h-7 flex-1 border-none bg-transparent p-0 shadow-none ring-0 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
         />
         {hasQuery && (
@@ -41,7 +49,7 @@ export function TopHeader() {
             type="submit"
             variant="ghost"
             size="icon"
-            className="ml-2 h-7 w-7 text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground ml-1 h-7 w-7"
             aria-label="검색 실행"
           >
             <ArrowRight className="h-4 w-4" />

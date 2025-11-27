@@ -15,7 +15,10 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed inset-y-0 left-0 flex w-64 flex-col border-r border-stone-800 bg-stone-900 text-stone-300">
+    <aside
+      className="fixed inset-y-0 left-0 flex w-64 flex-col border-r border-stone-800 bg-stone-900 text-stone-300"
+      aria-label="주요 내비게이션"
+    >
       <div className="p-6">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-lime-600 text-sm font-bold text-white"></div>
@@ -28,7 +31,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <nav className="mt-4 flex-1 space-y-2 px-4">
+      <nav className="mt-4 flex-1 space-y-2 px-4" aria-label="사이드바 메뉴">
         {menuItems.map((item) => {
           const isActive =
             pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
@@ -43,6 +46,8 @@ export default function Sidebar() {
                   ? "border border-lime-800/50 bg-lime-900/40 text-lime-400 shadow-sm"
                   : "hover:bg-stone-800 hover:text-stone-100",
               )}
+              aria-current={isActive ? "page" : undefined}
+              aria-label={`${item.label}${isActive ? " (현재 페이지)" : ""}`}
             >
               <Icon size={20} />
               <span>{item.label}</span>
@@ -52,7 +57,10 @@ export default function Sidebar() {
       </nav>
 
       <div className="border-t border-stone-800 p-4">
-        <button className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-stone-400 transition-colors hover:bg-red-950/20 hover:text-red-400">
+        <button
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-stone-400 transition-colors hover:bg-red-950/20 hover:text-red-400"
+          aria-label="로그아웃"
+        >
           <LogOut size={20} />
           <span className="font-medium">Sign Out</span>
         </button>
