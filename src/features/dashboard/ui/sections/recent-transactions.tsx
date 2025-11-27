@@ -1,0 +1,87 @@
+"use client";
+
+import Link from "next/link";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useTransactionsListData } from "@/features/transactions/hooks/useTransactionsListData";
+import type { TransactionRow } from "@/features/transactions/types/type";
+import { StatusBadge } from "@/features/transactions/ui/components/StatusBadge";
+
+export default function RecentTransactions() {
+  const { data, isLoading, error } = useTransactionsListData();
+  const rows: TransactionRow[] = data ?? [];
+  const recent = rows.slice(0, 5);
+
+  return (
+    <Card className="rounded-2xl border-stone-200 shadow-sm">
+      <CardHeader className="flex items-center justify-between px-6 pt-4 pb-2">
+        <CardTitle className="text-lg font-semibold text-stone-900">최근 거래내역</CardTitle>
+        <Link href="/transactions" className="text-primary text-sm hover:underline">
+          전체 보기
+        </Link>
+      </CardHeader>
+      <CardContent className="px-6 pt-0 pb-4">
+        {isLoading && <div className="py-6 text-sm text-stone-500">Loading...</div>}
+        {error && (
+          <div className="py-6 text-sm text-rose-500">
+            최근 거래내역을 불러오는 중 오류가 발생했습니다.
+          </div>
+        )}
+        {!isLoading && !error && (
+          <div className="rounded-lg border">
+            <Table>
+              <TableHeader className="bg-muted">
+                <TableRow>
+                  <TableHead className="px-3 py-3 text-left">거래 ID</TableHead>
+                  <TableHead className="px-3 py-3 text-left">가맹점</TableHead>
+                  <TableHead className="px-3 py-3 text-left">결제수단</TableHead>
+                  <TableHead className="px-3 py-3 text-left">거래일시</TableHead>
+                  <TableHead className="px-3 py-3 text-left">금액</TableHead>
+                  <TableHead className="px-3 py-3 text-left">상태</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recent.length ? (
+                  recent.map((row) => (
+                    <TableRow key={row.id}>
+                      <TableCell className="px-3 py-3 font-mono text-xs whitespace-nowrap">
+                        {row.id}
+                      </TableCell>
+                      <TableCell className="px-3 py-3 whitespace-nowrap">
+                        {row.merchantName}
+                      </TableCell>
+                      <TableCell className="px-3 py-3 whitespace-nowrap">
+                        {row.methodLabel}
+                      </TableCell>
+                      <TableCell className="px-3 py-3 whitespace-nowrap">{row.dateTime}</TableCell>
+                      <TableCell className="px-3 py-3 whitespace-nowrap">
+                        {row.amountText}
+                      </TableCell>
+                      <TableCell className="px-3 py-3">
+                        <StatusBadge statusCode={row.statusCode} label={row.statusLabel} />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={6} className="h-24 text-center">
+                      최근 데이터가 없습니다.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}

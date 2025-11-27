@@ -3,7 +3,7 @@ export type Transaction = {
   mchtCode: string;
   amount: string;
   currency: string;
-  parType: "DEVICE" | "ONLINE" | "MOBILE" | "BILLING" | "VACT";
+  payType: "DEVICE" | "ONLINE" | "MOBILE" | "BILLING" | "VACT";
   status: "SUCCESS" | "FAILED" | "PENDING" | "CANCELED";
   paymentAt: string;
 };
@@ -13,4 +13,14 @@ export type Merchant = {
   mchtName: string;
   status: string;
   bizType: string;
+};
+
+export type PayMethodCode = {
+  type: string;
+  description: string;
+};
+
+export type PayStatusCode = {
+  code: string;
+  description: string;
 };
