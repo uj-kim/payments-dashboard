@@ -1,5 +1,10 @@
 import type { Transaction, Merchant } from "@/types/type";
-import type { DashboardStats, DashboardAmountChart, DashboardOverview } from "../types/dashboard";
+import type {
+  DashboardStats,
+  DashboardAmountChart,
+  DashboardVolumeChart,
+  DashboardOverview,
+} from "../types/dashboard";
 
 export function calculateDashboardStats(
   transactions: Transaction[],
@@ -21,7 +26,7 @@ export function calculateDashboardStats(
   return { totalAmount, avgAmount, successRate, activeMerchantCount };
 }
 
-export function calculateamountsByDay(transactions: Transaction[]): DashboardAmountChart[] {
+export function calculateAmountsByDay(transactions: Transaction[]): DashboardAmountChart[] {
   const baseDates: string[] = [];
   for (let day = 1; day <= 10; day++) {
     const d = `2025-11-${day.toString().padStart(2, "0")}`;
@@ -46,12 +51,37 @@ export function calculateamountsByDay(transactions: Transaction[]): DashboardAmo
   }));
 }
 
+export function calculateVolumesByDay(transactions: Transaction[]): DashboardVolumeChart[] {
+  const baseDates: string[] = [];
+  for (let day = 1; day <= 10; day++) {
+    const d = `2025-11-${day.toString().padStart(2, "0")}`;
+    baseDates.push(d);
+  }
+
+  const map = new Map<string, number>();
+  baseDates.forEach((d) => map.set(d, 0));
+
+  for (const tx of transactions) {
+    const dateOnly = tx.paymentAt.slice(0, 10);
+    if (!map.has(dateOnly)) continue;
+
+    const prev = map.get(dateOnly) ?? 0;
+    map.set(dateOnly, prev + 1);
+  }
+
+  return baseDates.map((d) => ({
+    date: d,
+    count: map.get(d) ?? 0,
+  }));
+}
+
 export function buildDashboardOverview(
   transactions: Transaction[],
   merchants: Merchant[],
 ): DashboardOverview {
   const stats = calculateDashboardStats(transactions, merchants);
-  const amountsByDay = calculateamountsByDay(transactions);
+  const amountsByDay = calculateAmountsByDay(transactions);
+  const volumeByDay = calculateVolumesByDay(transactions);
 
-  return { stats, amountsByDay };
+  return { stats, amountsByDay, volumeByDay };
 }

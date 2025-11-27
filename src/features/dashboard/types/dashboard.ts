@@ -10,7 +10,13 @@ export type DashboardAmountChart = {
   totalAmount: number;
 };
 
+export type DashboardVolumeChart = {
+  date: string;
+  count: number;
+};
+
 export type DashboardOverview = {
   stats: DashboardStats;
   amountsByDay: DashboardAmountChart[];
+  volumeByDay: DashboardVolumeChart[];
 };
