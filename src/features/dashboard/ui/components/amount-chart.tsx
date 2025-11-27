@@ -33,8 +33,8 @@ const chartConfig = {
 
 export function AmountChart({ data }: AmountChartProps) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-start justify-between">
+    <Card className="bg-white">
+      <CardHeader className="flex flex-row items-start justify-between pb-2">
         <div className="space-y-1">
           <CardTitle>일별 거래 금액</CardTitle>
           <CardDescription>11월 1일 - 11월 10일</CardDescription>
@@ -43,24 +43,24 @@ export function AmountChart({ data }: AmountChartProps) {
       </CardHeader>
 
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-auto h-80 md:h-[360px]">
+        <ChartContainer config={chartConfig} className="aspect-auto h-64 w-full">
           <AreaChart
             accessibilityLayer
             data={data}
-            margin={{ top: 8, right: 30, left: 10, bottom: 12 }}
+            margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
               tickLine={false}
               axisLine={false}
-              tickMargin={12}
+              tickMargin={8}
               interval="preserveStartEnd"
               padding={{ left: 0, right: 0 }}
-              // "2025-11-01" -> "11/01"
               tickFormatter={(value: string) => value.slice(5).replace("-", "/")}
             />
             <YAxis
+              width={48}
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -81,6 +81,7 @@ export function AmountChart({ data }: AmountChartProps) {
               fill="url(#fillTotalAmount)"
               fillOpacity={0.4}
               stroke="var(--color-totalAmount)"
+              strokeWidth={2}
             />
           </AreaChart>
         </ChartContainer>
