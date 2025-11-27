@@ -1,26 +1,53 @@
 "use client";
 
-import { Bell, Search, User } from "lucide-react";
+import { ArrowRight, Bell, Search, User } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function TopHeader() {
+  const router = useRouter();
+  const [value, setValue] = useState("");
+  const hasQuery = value.trim().length > 0;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = value.trim();
+    if (!q) return;
+    router.push(`/transactions/search?q=${encodeURIComponent(q)}`);
+  };
   return (
     <header className="bg-background fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b px-8 shadow-xs">
       {/* 검색창 */}
-      <div className="bg-muted text-foreground focus-within:ring-ring/20 flex w-full max-w-lg items-center rounded-xl px-3 py-2 text-sm transition-all focus-within:ring-2">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-muted text-foreground focus-within:ring-ring/20 flex w-full max-w-lg items-center rounded-xl px-3 py-2 text-sm transition-all focus-within:ring-2"
+      >
         <Search size={18} className="text-muted-foreground mr-2" />
         <Input
           type="text"
-          placeholder="Search transactions, customers..."
-          className="h-7 border-none bg-transparent p-0 shadow-none ring-0 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+          placeholder="거래 ID, 가맹점명, 가맹점 ID 검색..."
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className="h-7 flex-1 border-none bg-transparent p-0 shadow-none ring-0 outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
         />
-      </div>
-
+        {hasQuery && (
+          <Button
+            type="submit"
+            variant="ghost"
+            size="icon"
+            className="ml-2 h-7 w-7 text-muted-foreground hover:text-foreground"
+            aria-label="검색 실행"
+          >
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        )}
+      </form>
       <div className="flex items-center gap-4">
         {/* 알림 버튼 + 팝오버 */}
         <Popover>

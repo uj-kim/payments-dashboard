@@ -31,6 +31,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTransactionsListData } from "../../hooks/useTransactionsListData";
 import type { TransactionRow } from "../../types/type";
 import { StatusBadge } from "./StatusBadge";
+import { filterTransactions } from "../../utils/filter-transactions";
+
+type TransactionsDataListProps = {
+  searchQuery?: string;
+};
 
 const columns: ColumnDef<TransactionRow>[] = [
   {
@@ -87,14 +92,19 @@ const columns: ColumnDef<TransactionRow>[] = [
   },
 ];
 
-export function TransactionsDataList() {
+export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListProps) {
   const { data, isLoading, error } = useTransactionsListData();
   const rows: TransactionRow[] = data ?? [];
   const [sorting, setSorting] = React.useState<SortingState>([{ id: "dateTime", desc: true }]);
   const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: 10 });
 
+  const filteredRows = React.useMemo(
+    () => filterTransactions(rows, searchQuery),
+    [rows, searchQuery],
+  );
+
   const table = useReactTable({
-    data: rows,
+    data: filteredRows,
     columns,
     state: { sorting, pagination },
     onSortingChange: setSorting,
