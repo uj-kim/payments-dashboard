@@ -1,6 +1,6 @@
 "use client";
 
-import { StatsCard } from "@/components/StatsCard";
+import { StatsCard } from "@/components/stats-card";
 import { useDashboardOverview } from "../../hooks/useDashboardOverview";
 
 function formatCurrency(amount: number) {

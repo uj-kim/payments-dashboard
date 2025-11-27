@@ -1,28 +1,18 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
+import Sidebar from "@/components/sidebar";
+import { TopHeader } from "@/components/top-header";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen">
-      {/* 사이드바 */}
-      <aside className="flex w-60 flex-col gap-6 border-r px-4 py-6">
-        <div className="text-lg font-semibold">PG Admin</div>
+    <div className="bg-background min-h-screen">
+      {/* 왼쪽: 사이드바(고정) */}
+      <Sidebar />
 
-        <nav className="flex flex-col gap-2 text-sm">
-          <Link href="/" className="rounded border px-2 py-1">
-            대시보드
-          </Link>
-          <Link href="/#" className="rounded border px-2 py-1">
-            거래내역
-          </Link>
-          <Link href="/#" className="rounded border px-2 py-1">
-            가맹점
-          </Link>
-        </nav>
-      </aside>
-
-      {/* 메인 콘텐츠 */}
-      <main className="flex-1 px-6 py-6">{children}</main>
+      {/* 오른쪽 메인 콘텐츠 */}
+      <main className="ml-64 min-h-screen bg-stone-50">
+        <TopHeader />
+        <div className="px-8 py-8 pt-24">{children}</div>
+      </main>
     </div>
   );
 }
