@@ -7,7 +7,7 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-6">
       {/* 상단 헤더 */}
       <header className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">PG 대시보드</h1>
+        <h1 className="text-2xl font-semibold">대시보드</h1>
       </header>
 
       {/* KPI 카드 섹션 */}
