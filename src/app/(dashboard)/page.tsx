@@ -1,5 +1,6 @@
 import DashboardChartsSection from "@/features/dashboard/ui/sections/charts-section";
 import DashboardKPISection from "@/features/dashboard/ui/sections/stats-section";
+import RecentTransactions from "@/features/dashboard/ui/sections/recent-transactions";
 
 export default function DashboardPage() {
   return (
@@ -12,8 +13,11 @@ export default function DashboardPage() {
       {/* KPI 카드 섹션 */}
       <DashboardKPISection />
 
-      {/* 기타 섹션 추가 예정 */}
+      {/* 차트 섹션 */}
       <DashboardChartsSection />
+
+      {/* 최근 거래내역 5건 */}
+      <RecentTransactions />
     </div>
   );
 }
