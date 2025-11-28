@@ -42,6 +42,7 @@ export async function getTransactionsListData(): Promise<TransactionRow[]> {
       day: "2-digit",
       hour: "2-digit",
       minute: "2-digit",
+      timeZone: "Asia/Seoul",
     });
 
     return {

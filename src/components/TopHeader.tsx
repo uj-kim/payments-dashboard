@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Bell, Search, User } from "lucide-react";
+import { ArrowRight, Bell, Menu, Search, User } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-export function TopHeader() {
+type TopHeaderProps = {
+  onMenuClick?: () => void;
+};
+
+export function TopHeader({ onMenuClick }: TopHeaderProps) {
   const router = useRouter();
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -24,13 +28,24 @@ export function TopHeader() {
   };
   return (
     <header
-      className="bg-background fixed top-0 right-0 left-64 z-20 flex h-16 items-center justify-between border-b px-8 shadow-xs"
+      className="bg-background fixed top-0 right-0 left-0 z-20 flex h-16 items-center justify-between border-b px-4 shadow-xs lg:left-64 lg:px-8"
       aria-label="상단 헤더"
     >
+      <div className="flex items-center gap-2 lg:hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-muted-foreground hover:text-foreground"
+          aria-label="사이드바 열기"
+          onClick={onMenuClick}
+        >
+          <Menu className="h-5 w-5" />
+        </Button>
+      </div>
       {/* 검색창 */}
       <form
         onSubmit={handleSubmit}
-        className="bg-muted text-foreground focus-within:ring-ring/20 flex w-full max-w-lg items-center rounded-xl px-3 py-2 text-sm transition-all focus-within:ring-2"
+        className="bg-muted text-foreground focus-within:ring-ring/20 flex w-full max-w-lg flex-1 items-center rounded-xl px-3 py-2 text-sm transition-all focus-within:ring-2"
         role="search"
         aria-label="거래 검색"
       >

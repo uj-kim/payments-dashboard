@@ -35,8 +35,8 @@ export default function RecentTransactions() {
             <Table aria-label="최근 거래내역 로딩 중">
               <TableHeader className="bg-muted">
                 <TableRow>
-                  {["거래 ID", "가맹점", "결제수단", "거래일시", "금액", "상태"].map((label) => (
-                    <TableHead key={label} className="px-3 py-3 text-left">
+                  {["거래 ID", "가맹점", "결제수단", "거래일시", "금액", "상태"].map((label, idx) => (
+                    <TableHead key={`${label}-${idx}`} className="px-3 py-3 text-left">
                       <div className="h-3 w-20 animate-pulse rounded bg-stone-200" />
                     </TableHead>
                   ))}

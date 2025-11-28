@@ -124,8 +124,13 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
             <Table aria-label="거래 내역 로딩 중">
               <TableHeader className="bg-muted">
                 <TableRow>
-                  {columns.map((col) => (
-                    <TableHead key={col.id ?? "column"} className="px-3 py-3">
+                  {columns.map((col, idx) => (
+                    <TableHead
+                      key={
+                        (col.id as string) || ((col as any).accessorKey as string) || `col-${idx}`
+                      }
+                      className="px-3 py-3"
+                    >
                       <div className="h-3 w-20 animate-pulse rounded bg-stone-200" />
                     </TableHead>
                   ))}
