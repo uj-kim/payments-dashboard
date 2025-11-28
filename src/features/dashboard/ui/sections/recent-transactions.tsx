@@ -11,12 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { useTransactionsListData } from "@/features/transactions/hooks/useTransactionsListData";
 import type { TransactionRow } from "@/features/transactions/types/type";
 import { StatusBadge } from "@/features/transactions/ui/components/StatusBadge";
 
 export default function RecentTransactions() {
-  const { data, isLoading, error } = useTransactionsListData();
+  const { data, isLoading, error, refetch } = useTransactionsListData();
   const rows: TransactionRow[] = data ?? [];
   const recent = rows.slice(0, 5);
 
@@ -29,10 +30,41 @@ export default function RecentTransactions() {
         </Link>
       </CardHeader>
       <CardContent className="px-6 pt-0 pb-4">
-        {isLoading && <div className="py-6 text-sm text-stone-500">Loading...</div>}
+        {isLoading && (
+          <div className="rounded-lg border">
+            <Table aria-label="최근 거래내역 로딩 중">
+              <TableHeader className="bg-muted">
+                <TableRow>
+                  {["거래 ID", "가맹점", "결제수단", "거래일시", "금액", "상태"].map((label) => (
+                    <TableHead key={label} className="px-3 py-3 text-left">
+                      <div className="h-3 w-20 animate-pulse rounded bg-stone-200" />
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <TableRow key={idx}>
+                    {["w-28", "w-32", "w-20", "w-24", "w-20", "w-16"].map((width, cellIdx) => (
+                      <TableCell key={cellIdx} className="px-3 py-3">
+                        <div className={`h-3 animate-pulse rounded bg-stone-200 ${width}`} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
         {error && (
-          <div className="py-6 text-sm text-rose-500">
-            최근 거래내역을 불러오는 중 오류가 발생했습니다.
+          <div className="flex flex-col gap-3 py-6 text-sm text-rose-600">
+            <p>최근 거래내역을 불러오는 중 오류가 발생했습니다.</p>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500">
+              <Button variant="outline" size="sm" onClick={() => refetch()}>
+                다시 시도
+              </Button>
+              <span>{(error as Error)?.message || "네트워크 상태를 확인해 주세요."}</span>
+            </div>
           </div>
         )}
         {!isLoading && !error && (

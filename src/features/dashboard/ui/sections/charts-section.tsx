@@ -3,9 +3,10 @@
 import { useDashboardOverview } from "../../hooks/useDashboardOverview";
 import { AmountChart } from "../components/amount-chart";
 import { VolumeChart } from "../components/volume-chart";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardChartsSection() {
-  const { data, isLoading, error } = useDashboardOverview();
+  const { data, isLoading, error, refetch } = useDashboardOverview();
 
   if (isLoading) {
     return (
@@ -37,7 +38,13 @@ export default function DashboardChartsSection() {
   if (error || !data) {
     return (
       <div className="rounded-lg border p-4 text-sm text-red-500">
-        차트 데이터를 불러오는 도중 오류 발생했습니다.
+        <div className="mb-2">차트 데이터를 불러오는 도중 오류가 발생했습니다.</div>
+        <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500">
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            다시 시도
+          </Button>
+          <span>{(error as Error)?.message || "네트워크 상태를 확인해 주세요."}</span>
+        </div>
       </div>
     );
   }
