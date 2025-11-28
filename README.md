@@ -78,7 +78,6 @@ pnpm dev
 
 ### 4) 기타 스크립트
 ```bash
-pnpm lint
 pnpm build
 pnpm start
 ```
