@@ -1,4 +1,4 @@
-import { DashboardOverview } from "../types/dashboard";
+import { DashboardOverview } from "../types/dashboard-types";
 import { buildDashboardOverview } from "../services/dashboard-calculate-helpers";
 import fetchTransactions from "@/shared/api/transactions";
 import fetchMerchants from "@/shared/api/merchants";

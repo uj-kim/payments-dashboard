@@ -1,8 +1,8 @@
 "use client";
 
-import { StatsCard } from "@/components/stats-card";
+import { StatsCard } from "@/features/dashboard/ui/components/StatsCard";
 import { Button } from "@/components/ui/button";
-import { useDashboardOverview } from "../../hooks/useDashboardOverview";
+import { useDashboardOverview } from "../../hooks/use-dashboard-overview";
 
 function formatCurrency(amount: number) {
   return amount.toLocaleString("ko-KR") + "원";

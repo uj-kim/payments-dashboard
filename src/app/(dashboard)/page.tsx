@@ -1,6 +1,6 @@
-import DashboardChartsSection from "@/features/dashboard/ui/sections/charts-section";
-import DashboardKPISection from "@/features/dashboard/ui/sections/stats-section";
-import RecentTransactions from "@/features/dashboard/ui/sections/recent-transactions";
+import DashboardChartsSection from "@/features/dashboard/ui/sections/ChartsSection";
+import DashboardKPISection from "@/features/dashboard/ui/sections/StatsSection";
+import RecentTransactions from "@/features/dashboard/ui/sections/RecentTransactions";
 
 export default function DashboardPage() {
   return (

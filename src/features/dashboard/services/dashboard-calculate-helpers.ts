@@ -1,10 +1,10 @@
-import type { Transaction, Merchant } from "@/types/type";
+import type { Transaction, Merchant } from "@/types/domain-types";
 import type {
   DashboardStats,
   DashboardAmountChart,
   DashboardVolumeChart,
   DashboardOverview,
-} from "../types/dashboard";
+} from "../types/dashboard-types";
 
 export function calculateDashboardStats(
   transactions: Transaction[],

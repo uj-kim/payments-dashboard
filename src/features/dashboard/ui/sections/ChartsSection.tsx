@@ -1,8 +1,8 @@
 "use client";
 
-import { useDashboardOverview } from "../../hooks/useDashboardOverview";
-import { AmountChart } from "../components/amount-chart";
-import { VolumeChart } from "../components/volume-chart";
+import { useDashboardOverview } from "../../hooks/use-dashboard-overview";
+import { AmountChart } from "../components/AmountChart";
+import { VolumeChart } from "../components/VolumeChart";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardChartsSection() {
@@ -51,7 +51,7 @@ export default function DashboardChartsSection() {
 
   return (
     <section className="grid grid-cols-1 gap-4 lg:grid-cols-7">
-    <div className="lg:col-span-4">
+      <div className="lg:col-span-4">
         <AmountChart data={data.amountsByDay} />
       </div>
       <div className="lg:col-span-3">

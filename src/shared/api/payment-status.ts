@@ -1,4 +1,4 @@
-import { PayStatusCode } from "@/types/type";
+import { PayStatusCode } from "@/types/domain-types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 

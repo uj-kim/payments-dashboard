@@ -1,9 +1,9 @@
 import fetchTransactions from "@/shared/api/transactions";
-import { TransactionRow } from "../types/type";
+import { TransactionRow } from "../types/transaction-types";
 import fetchMerchants from "@/shared/api/merchants";
 import { fetchPayMethodCodes } from "@/shared/api/payment-method";
 import { fetchPayStatusCodes } from "@/shared/api/payment-status";
-import { Merchant, PayMethodCode, PayStatusCode } from "@/types/type";
+import { Merchant, PayMethodCode, PayStatusCode } from "@/types/domain-types";
 
 export async function getTransactionsListData(): Promise<TransactionRow[]> {
   const [transactions, merchants, payMethodCodes, payStatusCodes] = await Promise.all([
@@ -22,7 +22,7 @@ export async function getTransactionsListData(): Promise<TransactionRow[]> {
   // 3. 결제 상태 코드 → 라벨 매핑
   const statusMap = new Map<string, PayStatusCode>(payStatusCodes.map((c) => [c.code, c]));
 
-  // 4. 테이블 행 데이터 변환
+  // 4. 데이터 형태 변환
   const rows: TransactionRow[] = transactions.map((tx) => {
     const merchant = merchantMap.get(tx.mchtCode);
     const method = methodMap.get(tx.payType);

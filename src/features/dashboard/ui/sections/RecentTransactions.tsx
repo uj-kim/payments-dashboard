@@ -12,8 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { useTransactionsListData } from "@/features/transactions/hooks/useTransactionsListData";
-import type { TransactionRow } from "@/features/transactions/types/type";
+import { useTransactionsListData } from "@/features/transactions/hooks/use-transactions-list-data";
+import type { TransactionRow } from "@/features/transactions/types/transaction-types";
 import { StatusBadge } from "@/features/transactions/ui/components/StatusBadge";
 
 export default function RecentTransactions() {

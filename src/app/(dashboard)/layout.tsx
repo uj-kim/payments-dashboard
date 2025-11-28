@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import Sidebar from "@/components/sidebar";
-import { TopHeader } from "@/components/top-header";
+import Sidebar from "@/components/Sidebar";
+import { TopHeader } from "@/components/TopHeader";
 
 export const metadata: Metadata = {
   title: {

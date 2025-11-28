@@ -1,4 +1,4 @@
-import type { TransactionRow } from "../types/type";
+import type { TransactionRow } from "../types/transaction-types";
 
 export function filterTransactions(rows: TransactionRow[], query: string): TransactionRow[] {
   const q = query.trim().toLowerCase();

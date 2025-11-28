@@ -27,8 +27,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useTransactionsListData } from "../../hooks/useTransactionsListData";
-import type { TransactionRow } from "../../types/type";
+import { useTransactionsListData } from "../../hooks/use-transactions-list-data";
+import type { TransactionRow } from "../../types/transaction-types";
 import { StatusBadge } from "./StatusBadge";
 import { filterTransactions } from "../../utils/filter-transactions";
 import { useMemo, useState } from "react";
