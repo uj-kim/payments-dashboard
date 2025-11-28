@@ -1,6 +1,7 @@
 "use client";
 
 import { StatsCard } from "@/components/stats-card";
+import { Button } from "@/components/ui/button";
 import { useDashboardOverview } from "../../hooks/useDashboardOverview";
 
 function formatCurrency(amount: number) {
@@ -13,7 +14,7 @@ function formatPercent(rate: number) {
 }
 
 export default function DashboardKPISection() {
-  const { data, isLoading, error } = useDashboardOverview();
+  const { data, isLoading, error, refetch } = useDashboardOverview();
 
   if (isLoading) {
     return (
@@ -28,7 +29,13 @@ export default function DashboardKPISection() {
   if (error || !data) {
     return (
       <div className="rounded-lg border p-4 text-sm text-red-500">
-        대시보드 통계를 불러오는 중 오류가 발생했습니다.
+        <div className="mb-2">대시보드 통계를 불러오는 중 오류가 발생했습니다.</div>
+        <div className="flex flex-wrap items-center gap-2 text-xs text-stone-500">
+          <Button variant="outline" size="sm" onClick={() => refetch()}>
+            다시 시도
+          </Button>
+          <span>{(error as Error)?.message || "네트워크 상태를 확인해 주세요."}</span>
+        </div>
       </div>
     );
   }
