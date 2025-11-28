@@ -125,7 +125,7 @@ export function TransactionsDataList({ searchQuery = "" }: TransactionsDataListP
               <TableHeader className="bg-muted">
                 <TableRow>
                   {columns.map((col) => (
-                    <TableHead key={col.id ?? (col.accessorKey as string)} className="px-3 py-3">
+                    <TableHead key={col.id ?? "column"} className="px-3 py-3">
                       <div className="h-3 w-20 animate-pulse rounded bg-stone-200" />
                     </TableHead>
                   ))}

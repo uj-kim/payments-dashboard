@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
 import { TransactionsDataList } from "@/features/transactions/ui/components/TransactionsDataList";
 import { useSearchParams } from "next/navigation";
 
-export default function TransactionsSearchPage() {
+function TransactionsSearchContent() {
   const searchParams = useSearchParams();
   const q = searchParams.get("q") ?? "";
 
@@ -18,5 +19,13 @@ export default function TransactionsSearchPage() {
 
       <TransactionsDataList searchQuery={q} />
     </div>
+  );
+}
+
+export default function TransactionsSearchPage() {
+  return (
+    <Suspense fallback={<div className="px-6 py-4 text-sm text-stone-500">검색어를 불러오는 중...</div>}>
+      <TransactionsSearchContent />
+    </Suspense>
   );
 }
